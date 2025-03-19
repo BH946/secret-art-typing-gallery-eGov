@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	<!-- 별칭 지정시 sql문쪽 resultType 이런곳에서 "클래스명"만으로 바로 사용 가능! 
+	단, 클래스단위임. 패키지 단위는 application.properties에서 해야함. -->
+	<typeAliases>
+		<typeAlias alias="Item"
+			type="com.secretgallery.vo.Item" />
+	</typeAliases>
+
+	<typeHandlers>
+		<typeHandler
+			handler="org.egovframe.rte.psl.dataaccess.typehandler.CalendarMapperTypeHandler" />
+	</typeHandlers>
+
+	<mappers>
+		<mapper resource="sqlmap/mappers/Item.xml" />
+	</mappers>
+
+</configuration>

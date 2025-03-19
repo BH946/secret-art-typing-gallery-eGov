@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	<!-- 애초에 boot-mybatis-starter 라이브러리 사용했으면 이부분 자동 설정해 줌. 안 사용해서 추가한거임. -->
+
+	<!-- SqlSession setup for MyBatis Database Layer -->
+	<!-- MyBatis와 Spring 연동 설정
+	물론, 스프링부트는 java 파일에서 빈 등록을 권장 -->
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:/sqlmap/sql-mybatis-config.xml" />
+		<!-- <property name="mapperLocations" value="classpath:**/lab-*.xml" /> -->
+	</bean>
+	<!-- MapperConfigurer setup for @Mapper -->
+	<!-- MyBatis의 Mapper Interface 자동스캔 설정 
+	물론, 스프링부트는 java 파일에서 빈 등록을 권장 -->
+	<bean class="org.egovframe.rte.psl.dataaccess.mapper.MapperConfigurer ">
+		<property name="basePackage"
+			value="com.secretgallery.service.impl" />
+	</bean>
+</beans>	

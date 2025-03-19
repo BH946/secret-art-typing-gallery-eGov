@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.secretgallery.service.impl.ItemMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="itemId">
+        insert into item (nickname, password, title, content, imgSrc, date1, date2)
+        values (#{nickname}, #{password}, #{title}, #{content}, #{imgSrc}, #{date1}, #{date2})
+    </insert>
+    <update id="update">
+        update item
+        set password=#{password},
+            title=#{title},
+            content=#{content}
+        where item_id = #{itemId}
+    </update>
+    <select id="findById" resultType="Item">
+        select item_id as itemId, nickname, password, title, content, imgSrc, date1, date2
+        from item
+        where item_id = #{itemId}
+    </select>
+</mapper>
