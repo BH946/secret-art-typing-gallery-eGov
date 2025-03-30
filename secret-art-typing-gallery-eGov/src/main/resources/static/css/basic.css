@@ -1,0 +1,128 @@
+/*
+ * 글꼴, 색상, 스타일 전역변수 정의
+ */
+@font-face {
+  font-family: 'SUITE-Regular';
+  src: url('/css/SUITE-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+:root {
+  --line: #393A40;
+  --main-1: #0C0C0C;
+  --main-2: #323338;
+  --text-2: #8E8F9B;
+}
+
+/*
+ * Base structure
+ */
+body {
+  background-color: var(--main-1);
+  /* SUITE 못 찾으면 sans-serif 사용 */
+  font-family: 'SUITE-Regular', sans-serif;
+  margin-top: 15vh;
+}
+.field-error {
+  color: red; font-weight: 700; padding:10px;
+}
+
+/*
+ * Header
+ */
+nav {
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+  border-style: solid;
+  border-color: var(--line);
+}
+.nav-item {
+  position: relative;
+  text-align: center;
+  font-size: 1.2vw;
+  width: 15vw;
+  padding: 20px;
+  padding-bottom: 30px;
+
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+  border-style: solid;
+  border-color: var(--line);
+}
+
+/* 여기서 header는 navbar-nav 의 높이를 기준으로 정해진다고 볼 수 있음 */
+.navbar-nav {
+  height: 15vh;
+}
+#nav-item-first {border-left-width: 1px; }
+.nav-link {
+  color: white; font-weight: 700;
+}
+
+#custom-nav-item:hover,
+#custom-nav-item:active,
+#custom-nav-item.visited {
+  background-color: var(--main-2);
+}
+
+.nav-item-inner {
+  position:absolute; 
+  bottom:0;
+  left:0;
+  font-size: 0.7em;
+  color:white; font-weight: 400; letter-spacing: -0.14px; opacity: 0.6;
+  padding: 16px;
+}
+
+/*
+ * Main
+ */
+.custom-container-default {
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  padding-left: 15vw;
+  padding-right: 15vw;
+}
+#enterBtn {
+background-color: var(--main-1); color: white;
+border-radius: 0px;
+}
+#enterBtn:hover{
+background-color: white;
+color: var(--main-1);
+border-radius: 10px;
+}
+
+/* 모달에 스타일링 */
+/* 스크롤을 숨기는 스타일 */
+.no-scroll::-webkit-scrollbar {
+width: 0px;
+}
+/* 스핀 버튼 숨기기 */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+}
+
+
+/*
+* Footer
+*/
+.custom-footer {
+  color:var(--text-2);
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  border-style: solid;
+  border-top-width: 1px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+  border-color: var(--line);
+  margin-left: 15vw; /* custom-container-default 의 padding 과 너비 맞출것 */
+  margin-right: 15vw;
+}

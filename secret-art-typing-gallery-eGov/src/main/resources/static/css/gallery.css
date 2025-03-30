@@ -1,0 +1,50 @@
+.gallery-item-first{
+  display: flex;
+  flex-direction: row;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  /*height: 25vh;*/
+}
+.gallery-item-many{
+  display: flex;
+  flex-direction: row;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  /*height: 25vh;*/
+
+  /* first와 차이점은 아래 border부분뿐 */
+  border-color: var(--line);
+  border-style: solid;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+  border-top-width: 1px;
+}
+
+.pagination-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+.page-link{
+background-color: var(--main-1);
+border-width:0px;
+font-weight: 500;
+text-align: center;
+color:white;
+}
+.page-link:hover{
+background-color: var(--main-2);
+color:white;
+}
+.page-link-act{	
+background-color: white;
+color:var(--main-1);
+text-decoration-line: none;
+padding: 1vw;
+font-size: 1.2vw;
+}

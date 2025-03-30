@@ -2,20 +2,95 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.secretgallery.service.impl.ItemMapper">
-    <insert id="save" useGeneratedKeys="true" keyProperty="itemId">
-        insert into item (nickname, password, title, content, imgSrc, date1, date2)
-        values (#{nickname}, #{password}, #{title}, #{content}, #{imgSrc}, #{date1}, #{date2})
-    </insert>
-    <update id="update">
-        update item
-        set password=#{password},
-            title=#{title},
-            content=#{content}
-        where item_id = #{itemId}
-    </update>
-    <select id="findById" resultType="Item">
-        select item_id as itemId, nickname, password, title, content, imgSrc, date1, date2
-        from item
-        where item_id = #{itemId}
-    </select>
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+		insert
+		into item (nickname, password, title, content, img_src, date1, date2)
+		values (#{nickname}, #{password}, #{title}, #{content}, #{imgSrc},
+		#{date1}, #{date2})
+	</insert>
+	<update id="update">
+		update item
+		set password=#{password},
+		title=#{title},
+		content=#{content},
+		nickname=#{nickname}
+		where item_id = #{id}
+	</update>
+	<select id="findById" resultType="Item">
+		select item_id as id, nickname,
+		password, title, content, img_src, date1,
+		date2
+		from item
+		where item_id =
+		#{id}
+	</select>
+	<delete id="delete">
+		delete from item where item_id = #{id}
+	</delete>
+	<select id="findAll" resultType="Item">
+		select item_id as id, nickname,
+		password, title, content, img_src,
+		date1,
+		date2
+		from item
+	</select>
+<!--  -->
+	<!-- DBIO 써보기 + as별칭 말고 resultMap 써보기 -->
+	<resultMap id="item" type="Item">
+		<result property="id" column="item_id" />
+		<result property="nickname" column="nickname" />
+		<result property="password" column="password" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="imgSrc" column="img_src" />
+		<result property="date1" column="date1" />
+		<result column="date2" property="date2" />
+	</resultMap>
+	<!-- (동적쿼리)검색+페이징 -->
+	<select id="findAllWithPage" resultMap="item">
+		SELECT *
+		FROM item
+		<where>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+					<when test="searchCondition == 0">
+						and id like concat('%', #{searchKeyword}, '%')
+					</when>
+					<when test="searchCondition == 1">
+						and title like concat('%', #{searchKeyword}, '%')
+					</when>
+				</choose>
+			</if>
+		</where>
+		order by item_id DESC 
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	<select id="findTotalCount" resultType="int">
+		SELECT count(*) FROM Item
+		<where>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<choose>
+					<when test="searchCondition == 0">
+						and id like concat('%', #{searchKeyword}, '%')
+					</when>
+					<when test="searchCondition == 1">
+						and title like concat('%', #{searchKeyword}, '%')
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
+	<!-- 자동검색(ajax) -->
+	<select id="findTitleListForSuggest" resultType="string">
+		SELECT TITLE
+		FROM item
+		where title like '%' || #{value} || '%'
+		<!-- where title like concat('%', #{value}, '%') -->
+	</select>
+	<select id="findPrevNextById" resultMap="item">
+		<![CDATA[
+		SELECT * FROM Item WHERE
+		item_id >= #{prevId} and item_id <= #{nextId}
+		]]>
+	</select>
 </mapper>

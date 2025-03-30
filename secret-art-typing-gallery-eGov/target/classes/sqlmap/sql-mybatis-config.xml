@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
+<!--  -->
 	<settings>
 		<setting name="cacheEnabled" value="true" />
 		<setting name="lazyLoadingEnabled" value="true" />
@@ -14,12 +14,12 @@
 		<typeAlias alias="Item"
 			type="com.secretgallery.vo.Item" />
 	</typeAliases>
-
+<!--  -->
 	<typeHandlers>
 		<typeHandler
 			handler="org.egovframe.rte.psl.dataaccess.typehandler.CalendarMapperTypeHandler" />
 	</typeHandlers>
-
+<!--  -->
 	<mappers>
 		<mapper resource="sqlmap/mappers/Item.xml" />
 	</mappers>

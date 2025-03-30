@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.secretgallery.service.ItemService;
 import com.secretgallery.vo.Item;
+import com.secretgallery.vo.ItemDefault;
+import com.secretgallery.vo.UpdateItemDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ItemServiceImpl extends EgovAbstractServiceImpl implements ItemService {
 	private final ItemMapper itemMapper;
-
+	//CRUD
 	@Override
 	@Transactional // 쓰기모드
 	public Long save(Item item) throws Exception {
@@ -26,26 +28,52 @@ public class ItemServiceImpl extends EgovAbstractServiceImpl implements ItemServ
 	}
 
 	@Override
-	public void update(Item item) throws Exception {
+	@Transactional // 쓰기모드
+	public Long update(UpdateItemDto item) throws Exception {
 		// TODO Auto-generated method stub
-
+		return itemMapper.update(item);
 	}
 
 	@Override
-	public void delete(Item item) throws Exception {
+	@Transactional // 쓰기모드
+	public Long delete(Item item) throws Exception {
 		// TODO Auto-generated method stub
-
+		return itemMapper.delete(item);
 	}
 
 	@Override
-	public Item findById(Long itemId) throws Exception {
-		return itemMapper.findById(itemId);
+	public Item findById(Long id) throws Exception {
+		return itemMapper.findById(id);
 	}
 
 	@Override
 	public List<Item> findAll() throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return itemMapper.findAll();
+	}
+//
+	//추가 함수
+	@Override
+	public List<Item> findAllWithPage(ItemDefault searchItem) throws Exception {
+		// TODO Auto-generated method stub
+		return itemMapper.findAllWithPage(searchItem);
 	}
 
+	@Override
+	public int findTotalCount(ItemDefault searchItem) throws Exception {
+		// TODO Auto-generated method stub
+		return itemMapper.findTotalCount(searchItem);
+	}
+	
+	@Override
+	public List<String> findTitleListForSuggest(String value) throws Exception {
+		// TODO Auto-generated method stub
+		return itemMapper.findTitleListForSuggest(value);
+	}
+
+	@Override
+	public List<Item> findPrevNextById(Long id) throws Exception {
+		// TODO Auto-generated method stub
+		return itemMapper.findPrevNextById(id-1, id+1);
+	}
 }

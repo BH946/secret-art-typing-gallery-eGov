@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,33 +18,44 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Item {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long itemId;
+public class Item extends ItemDefault {
+	@Id //db에 pk
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //db에 not null auto_increment
+	@Column(name="item_id") //db 필드명
+	private Long id; //엔티티 필드명
 
 	private String nickname;
 	private String password;
 	private String title;
 	private String content;
-	@Column(name = "IMGSRC")
-	private String imgSrc;
+	private String imgSrc; //db엔 img_src
 
 	@DateTimeFormat(pattern = "yy.MM.dd.HH:mm")
 	private LocalDateTime date1;
 	@DateTimeFormat(pattern = "yy년 MM월 dd일 HH시 mm분")
-	private LocalDateTime date2;
+	private LocalDateTime date2; //필요없긴함. 어차피 jsp에서 date1을 format해서 나타내는 중이라.
 
 	// ==생성 편의 메서드==//
 	public static Item createItem(String nickname, String password, String title, String content, String imgSrc) {
 		Item item = new Item();
-		item.nickname = (nickname.equals("")) ? "익명" : nickname;
-		item.password = (password.equals("")) ? "" : password;
-		item.title = (title.equals("")) ? "무제" : title;
-		item.content = (content.equals("")) ? "" : content;
+		item.nickname = (nickname==null||nickname.equals("")) ? "익명" : nickname;
+		item.password = (password==null||password.equals("")) ? "" : password;
+		item.title = (title==null||title.equals("")) ? "무제" : title;
+		item.content = (content==null||content.equals("")) ? "" : content;
 		item.imgSrc = imgSrc;
 		item.date1 = LocalDateTime.now();
 		item.date2 = LocalDateTime.now();
 		return item;
+	}
+	
+	// ==비지니스 로직 편의 메서드== //
+	public Item updateItem(String password, String title, String content) {
+		this.password = (password.equals("")) ? "" : password;
+		this.title = (title.equals("")) ? "무제" : title;
+		this.content = (content.equals("")) ? "" : content;
+		// 최신 업데이트 시간
+		this.date1 = LocalDateTime.now();
+		this.date2 = LocalDateTime.now();
+		return this;
 	}
 }

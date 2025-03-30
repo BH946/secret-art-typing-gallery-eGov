@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 
+import com.secretgallery.config.MyDataSourceConfig;
+
+@Import(MyDataSourceConfig.class) // 해당 파일 컴포넌트 스캔 필수
 @SpringBootApplication
 @ImportResource("classpath:/spring/*.xml")
 public class EgovBootApplication {

@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+				http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-   	<!-- dataSource property를 위한 PropertyPlaceholderConfigurer 설정(사용 안했긴 함) 
-	<context:property-placeholder location="classpath:/META-INF/spring/jdbc.properties" />       
-    -->
-	<!-- 스테레오 타입 Annotation 을 인식하여 Spring bean 으로 자동 등록하기 위한 component-scan 설정 -->
+	<!-- dataSource property를 위한 PropertyPlaceholderConfigurer 설정(사용 안했긴 함) 
+		<context:property-placeholder location="classpath:/META-INF/spring/jdbc.properties" 
+		/> -->
+	<!-- 스테레오 타입 Annotation 을 인식하여 Spring bean 으로 자동 등록하기 위한 component-scan 
+		설정 -->
 	<!-- 어차피 부트 사용중이라 필요없다. -->
-    <!-- <context:component-scan base-package="egovframework"/> -->
-    
-    <!-- TODO [Step 1-7] 공통 설정 확인 -->
-	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	<!-- <context:component-scan base-package="egovframework"/> -->
+	
+	<!-- 부트처럼 "모든 핸들러매핑에 인터셉터 등록" 방안 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*" />
+			<ref bean = "localeChangeInterceptor" /> <!-- 메시지 국제화 등록 -->
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- 메시지소스와 국제화 -->
+	<!-- set message source -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">
 			<list>
-				<value>classpath:/message/message-common</value>
-				<value>classpath:/org/egovframe/rte/fdl/idgnr/messages/idgnr</value>
-				<value>classpath:/org/egovframe/rte/fdl/property/messages/properties</value>
+				<value>messages.message-common</value>
 			</list>
 		</property>
-		<property name="cacheSeconds">
-			<value>60</value>
-		</property>
 	</bean>
+	<!-- setting Locale -->   
+	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+		p:paramName="lang" />
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
 	
-	<bean id="leaveaTrace" class="org.egovframe.rte.fdl.cmmn.trace.LeaveaTrace">
+	<bean id="leaveaTrace"
+		class="org.egovframe.rte.fdl.cmmn.trace.LeaveaTrace">
 		<property name="traceHandlerServices">
 			<list>
 				<ref bean="traceHandlerService" />
@@ -33,7 +47,8 @@
 		</property>
 	</bean>
 
-	<bean id="traceHandlerService" class="org.egovframe.rte.fdl.cmmn.trace.manager.DefaultTraceHandleManager">
+	<bean id="traceHandlerService"
+		class="org.egovframe.rte.fdl.cmmn.trace.manager.DefaultTraceHandleManager">
 		<property name="reqExpMatcher">
 			<ref bean="antPathMater" />
 		</property>
@@ -48,9 +63,23 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="antPathMater" class="org.springframework.util.AntPathMatcher" />
 
-	<bean id="defaultTraceHandler" class="org.egovframe.rte.fdl.cmmn.trace.handler.DefaultTraceHandler" />
-	
+	<bean id="antPathMater"
+		class="org.springframework.util.AntPathMatcher" />
+
+	<bean id="defaultTraceHandler"
+		class="org.egovframe.rte.fdl.cmmn.trace.handler.DefaultTraceHandler" />
+
+	<!-- For Pagination Tag -->
+	<bean id="imageRenderer"
+		class="com.secretgallery.tag.ImagePaginationRenderer" />
+
+	<bean id="paginationManager"
+		class="org.egovframe.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
+		<property name="rendererType">
+			<map>
+				<entry key="image" value-ref="imageRenderer" />
+			</map>
+		</property>
+	</bean>
 </beans>
