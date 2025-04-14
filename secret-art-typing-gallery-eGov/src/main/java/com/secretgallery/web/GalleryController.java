@@ -132,11 +132,12 @@ public class GalleryController {
 	 */
 	@PostMapping("/update/{itemId}")
 	public String updateGalleryItem(@PathVariable Long itemId, @RequestParam String password,
-			RedirectAttributes redirectAttributes) throws Exception {
+			@RequestParam int pageIndex, RedirectAttributes redirectAttributes) throws Exception {
 		Item findItem = itemService.findById(itemId); // 이미 없으면 null
 		if (findItem != null) {
 			if (findItem.getPassword().equals(password)) {
 				log.debug("비번통과");
+				redirectAttributes.addAttribute("pageIndex", pageIndex);
 				return "redirect:/studio/item/{itemId}"; // 스튜디오 컨트롤러에 있음
 				// PRG 패턴 위해 Redirect
 			} else {
@@ -167,10 +168,7 @@ public class GalleryController {
 		if (findItem != null) {
 			if (findItem.getPassword().equals(password)) {
 				log.debug("비번통과");
-//				itemService.initCachePosts(); // 캐시 초기화(페이지들 새로 No 업데이트 하기 때문)
 				itemService.delete(findItem);
-//				List<Item> items = itemService.updateAllNo();
-//				itemService.updateTotalCount(); // 캐싱
 				redirectAttributes.addFlashAttribute("status", "deleteON");
 				return "redirect:/gallery"; // gallery() 함수로 이동
 			}  else {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC 
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN" 
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+
+    <formset>
+        <form name="updateItemDto">
+            <!-- id 필드: 필수 값 -->
+            <field property="id" depends="required">
+                <arg0 key="updateItemDto.id" />
+            </field>
+
+            <!-- nickname 필드: 필수 값 -->
+            <field property="nickname" depends="required">
+                <arg0 key="updateItemDto.nickname" />
+            </field>
+
+            <!-- password 필드: 숫자만 허용 -->
+            <field property="password" depends="required,integer">
+                <arg0 key="updateItemDto.password" />
+                <arg1 key="updateItemDto.password.integer" />
+            </field>
+
+            <!-- title 필드: 필수 값 -->
+            <field property="title" depends="required">
+                <arg0 key="updateItemDto.title" />
+            </field>
+
+            <!-- content 필드: 필수 값 -->
+            <field property="content" depends="required">
+                <arg0 key="updateItemDto.content" />
+            </field>
+
+            <!-- pageIndex 필드 -->
+            <field property="pageIndex" >
+            </field>
+        </form>
+    </formset>
+
+</form-validation>

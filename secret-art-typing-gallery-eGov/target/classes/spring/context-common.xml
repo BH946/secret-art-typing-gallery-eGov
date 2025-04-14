@@ -16,15 +16,7 @@
 	<!-- 어차피 부트 사용중이라 필요없다. -->
 	<!-- <context:component-scan base-package="egovframework"/> -->
 	
-	<!-- 부트처럼 "모든 핸들러매핑에 인터셉터 등록" 방안 -->
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/*" />
-			<ref bean = "localeChangeInterceptor" /> <!-- 메시지 국제화 등록 -->
-		</mvc:interceptor>
-	</mvc:interceptors>
-	
-	<!-- 메시지소스와 국제화 -->
+	<!-- 메시지소스와 국제화 -> 인터셉터 추가는 context-servlet.xml 참고 -->
 	<!-- set message source -->
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">
@@ -38,6 +30,22 @@
 		p:paramName="lang" />
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
 	
+	<!-- jakarta common validation 빈 등록 -->
+	<!-- Integration Apache Commons Validator by Spring Modules -->		
+	<bean id="beanValidator" class="org.springmodules.validation.commons.DefaultBeanValidator">
+		<property name="validatorFactory" ref="validatorFactory"/>
+	</bean>
+	<bean id="validatorFactory" class="org.springmodules.validation.commons.DefaultValidatorFactory">
+		<property name="validationConfigLocations">
+			<list>
+				<!-- 공통기술 -->
+		        <value>classpath:/validator/validator-rules.xml</value>
+		        <value>classpath:/validator/**/*.xml</value>  
+			</list>
+		</property>
+	</bean>
+	
+	<!-- EgovAbstractServiceImpl가 제공하는 leaveaTrace(예외처리 관련) 사용 위해 빈 등록 필수! -->
 	<bean id="leaveaTrace"
 		class="org.egovframe.rte.fdl.cmmn.trace.LeaveaTrace">
 		<property name="traceHandlerServices">

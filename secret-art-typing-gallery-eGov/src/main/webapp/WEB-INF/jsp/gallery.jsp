@@ -136,7 +136,7 @@ width: 120px;
 								<a class="btn btn-light mt-4" type="button" id="enterBtn"
 									onclick="redirectSavedBgm()"
 									style="font-size: 1vw; align-self: flex-start; width: 12vw; padding: 0.5em;"
-									href="<c:url value='/gallery/itemDetail/${itemResDto.id}'/>">
+									href="<c:url value='/gallery/itemDetail/${itemResDto.id}?pageIndex=${not empty param.pageIndex ? param.pageIndex : 1}'/>">
 									<span class="fw-bold" id="enterBtn1"
 									style="font-size: 1em; white-space: nowrap;"><c:out
 											value='${(paginationInfo.totalRecordCount+1)-((paginationInfo.currentPageNo-1)*paginationInfo.pageSize+status.count) }' />전시실

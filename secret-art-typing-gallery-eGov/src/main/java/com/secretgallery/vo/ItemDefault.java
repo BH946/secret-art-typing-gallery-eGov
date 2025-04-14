@@ -1,11 +1,13 @@
 package com.secretgallery.vo;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
+@EqualsAndHashCode //메모리캐시 때문에 넣음(원래도 있는게 좋긴하지)
 public class ItemDefault {
 
 	/** 검색조건->카테고리 ID, NAME 등 선택 */

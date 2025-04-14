@@ -47,15 +47,4 @@ public class Item extends ItemDefault {
 		item.date2 = LocalDateTime.now();
 		return item;
 	}
-	
-	// ==비지니스 로직 편의 메서드== //
-	public Item updateItem(String password, String title, String content) {
-		this.password = (password.equals("")) ? "" : password;
-		this.title = (title.equals("")) ? "무제" : title;
-		this.content = (content.equals("")) ? "" : content;
-		// 최신 업데이트 시간
-		this.date1 = LocalDateTime.now();
-		this.date2 = LocalDateTime.now();
-		return this;
-	}
 }

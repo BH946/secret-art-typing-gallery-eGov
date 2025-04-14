@@ -21,7 +21,7 @@
              style="width:70%"/>
         </button>
       </div>
-
+		<input type="hidden" id="pageIndex" name="pageIndex" value="${param.pageIndex}"/>
       <div class="modal-body" style="">
         <div class="container d-flex flex-column " style="padding:0px; padding-bottom:2vw;">
           <label for="password" class="pb-2" style="font-size: 2vw; font-weight: 500;color: white;">비밀번호 입력</label>

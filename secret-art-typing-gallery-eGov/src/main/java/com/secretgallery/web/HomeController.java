@@ -35,6 +35,11 @@ public class HomeController {
 		return "jsp/lobby"; // lobby.jsp 반환
 	}
 	
+	@GetMapping("/validator.do")
+	public String validator() {
+		return "jsp/validator"; // Jakarta common validation 활용 위해
+	}
+	
 	@GetMapping("/lobbyLang") //lang test ver: localeResolver빈만 있으면 가능
 	public String lobbyLang(@RequestParam("lang") String lang, HttpServletRequest request,
 			HttpServletResponse response) {
